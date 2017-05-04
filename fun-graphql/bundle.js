@@ -41729,6 +41729,10 @@ const schema_1 = __webpack_require__(169);
 const root_1 = __webpack_require__(168);
 exports.app = express();
 exports.app.use((req, res, next) => { log_1.registerLog(req); next(); });
+exports.app.use('/graphql/schemadoc', (req, res, next) => {
+    res.setHeader('content-type', 'text/plain');
+    res.end(schema_1.schemaDoc);
+});
 exports.app.use('/graphql', graphqlHTTP({
     schema: schema_1.schema,
     rootValue: root_1.root,
@@ -41802,7 +41806,7 @@ exports.root = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = __webpack_require__(131);
-exports.schema = graphql_1.buildSchema(`
+exports.schemaDoc = `
 type Query {
   test:Human
   hero(id: ID): Human
@@ -41821,7 +41825,8 @@ enum Episode {
   EMPIRE
   JEDI
 }
-`);
+`;
+exports.schema = graphql_1.buildSchema(exports.schemaDoc);
 
 
 /***/ }),
